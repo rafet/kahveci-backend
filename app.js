@@ -10,6 +10,10 @@ const path = require('path');
 
 const authRoute = require('./app/routes/auth.js');
 const userRoute = require('./app/routes/user.js');
+const caffeRoute = require('./app/routes/caffe.js');
+const productRoute = require('./app/routes/product.js');
+const orderRoute = require('./app/routes/order.js');
+const qrRoute = require('./app/routes/qr.js');
 
 const app = express();
 
@@ -38,5 +42,9 @@ app.use(express.static(path.resolve('./docs')));
 // api end points v1.0
 app.use('/v1/auth/', authRoute);
 app.use('/v1/user/', userRoute);
+app.use('/v1/caffe/', caffeRoute);
+app.use('/v1/product/', productRoute);
+app.use('/v1/order/', orderRoute);
+app.use('/v1/qr/', qrRoute);
 
 module.exports = app;

@@ -140,19 +140,18 @@ exports.update = async (req, res) => {
       {
         $set: { ...req.body }
       });
-      if (!user) {
-        res.status(404).json({
-          message: userEnums.NOT_FOUND
-        })
-      }
-      
-      res.status(200).json({
-        message: userEnums.UPDATED
+    if (!user) {
+      res.status(404).json({
+        message: userEnums.NOT_FOUND
       })
-    } catch (err) {
-      res.status(500).json({
-        error: err,
-      });
     }
+
+    res.status(200).json({
+      message: userEnums.UPDATED
+    })
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+    });
   }
-  
+}
