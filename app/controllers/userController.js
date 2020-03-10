@@ -110,6 +110,26 @@ exports.find = async (req, res) => {
   }
 }
 
+exports.findMe = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      _id: req.userData.userId
+    }, { password: 0 });
+    if (!user) {
+      res.status(404).json({
+        message: userEnums.NOT_FOUND
+      })
+    }
+    res.status(200).json({
+      user: user
+    })
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+    });
+  }
+}
+
 exports.delete = async (req, res) => {
   try {
     const user = await User.findOne({
