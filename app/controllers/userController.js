@@ -8,7 +8,10 @@ const userEnums = require('./../enums/userEnums');
 exports.register = async (req, res) => {
   try {
     const user = await User.findOne({
-      email: req.body.email
+      $or: [
+        { email: req.body.email },
+        { username: req.body.username }
+      ]
     })
 
     if (user) {
@@ -25,6 +28,7 @@ exports.register = async (req, res) => {
       const newUser = new User({
         _id: new mongoose.Types.ObjectId(),
         fullName: req.body.fullName,
+        username: req.body.username,
         email: req.body.email,
         password: hash,
         score: 0,
@@ -172,6 +176,30 @@ exports.update = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       error: err,
+    });
+  }
+}
+
+exports.loadCredit = async (req, res) => {
+  try {
+
+    const user = await User.findOneAndUpdate(
+      { _id: req.userData.userId },
+      {
+        $inc: { wallet: req.body.ammount }
+      });
+    if (!user) {
+      res.status(404).json({
+        message: userEnums.NOT_FOUND
+      })
+    }
+
+    res.status(200).json({
+      message: userEnums.UPDATED
+    })
+  } catch (err) {
+    res.status(500).json({
+      error: err
     });
   }
 }
