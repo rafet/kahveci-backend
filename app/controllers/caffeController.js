@@ -24,12 +24,31 @@ exports.find = async (req, res) => {
     });
   }
 }
+
+exports.list = async (req, res) => {
+  try {
+    const caffes = await Caffe.find({});
+    res.status(200).json({
+      caffes: caffes
+    })
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+    });
+  }
+}
 exports.create = async (req, res) => {
   try {
     const newCaffe = new Caffe({
       _id: new mongoose.Types.ObjectId(),
       name: req.body.name,
-      address: req.body.address
+      address: req.body.address,
+      country: req.body.country,
+      city: req.body.city,
+      phone_number: req.body.phone_number,
+      lat: req.body.lat,
+      lng: req.body.lng,
+      district_name: req.body.district_name
     })
     await newCaffe.save()
     res.status(201).json({

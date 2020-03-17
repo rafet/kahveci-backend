@@ -6,8 +6,23 @@ const caffeSchema = mongoose.Schema({
   name: {
     type: String
   },
-  address: {
+  country: {
     type: String,
+  },
+  city: {
+    type: String,
+  },
+  district_name: {
+    type: String,
+  },
+  phone_number: {
+    type: String,
+  },
+  lat: {
+    type: Number,
+  },
+  lng: {
+    type: Number,
   }
 });
 
