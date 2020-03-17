@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const Order = require('./../models/Order');
+const Product = require('./../models/Product');
+const User = require('./../models/User');
 const orderEnums = require('./../enums/orderEnums');
 
 exports.find = async (req, res) => {
@@ -29,10 +31,13 @@ exports.create = async (req, res) => {
     const newOrder = new Order({
       _id: new mongoose.Types.ObjectId(),
       products: req.body.products,
-      userId: req.body.userId,
-      caffeId: req.body.caffeId,
+      userId: req.userData.userId,
       date: Date.now()
     })
+    const products = await Product.find({ _id: { $in: req.body.products } })
+    const sum = (a, b) => a + b;
+    const score = products.map(x => (x.hasScore ? 1 : 0)).reduce(sum, 0);
+    await User.findOneAndUpdate({ _id: req.userData.userId }, { $inc: { score: score } })
     await newOrder.save()
     res.status(201).json({
       message: orderEnums.CREATED
