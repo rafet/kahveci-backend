@@ -12,12 +12,6 @@ const caffeSchema = mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    caffeId:
-    {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Caffe'
-    },
     date:{
         type:Date,
         required:true
