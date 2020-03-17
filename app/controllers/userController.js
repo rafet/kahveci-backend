@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('./../models/User');
+const Order = require('./../models/Order');
 const userEnums = require('./../enums/userEnums');
 
 exports.register = async (req, res) => {
@@ -196,6 +197,23 @@ exports.loadCredit = async (req, res) => {
 
     res.status(200).json({
       message: userEnums.UPDATED
+    })
+  } catch (err) {
+    res.status(500).json({
+      error: err
+    });
+  }
+}
+
+exports.meOrder = async (req, res) => {
+  try {
+
+    const orders = await Order.find({
+      userId: req.userData.userId
+    })
+
+    res.status(200).json({
+      orders: orders
     })
   } catch (err) {
     res.status(500).json({
