@@ -210,7 +210,7 @@ exports.meOrder = async (req, res) => {
 
     const orders = await Order.find({
       userId: req.userData.userId
-    })
+    }).populate('products')
 
     res.status(200).json({
       orders: orders
