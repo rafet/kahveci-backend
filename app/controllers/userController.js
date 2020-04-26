@@ -72,6 +72,7 @@ exports.login = async (req, res) => {
         const token = jwt.sign({
           email: user.email,
           userId: user._id,
+          role: user.role
         },
           process.env.JWT_KEY, {
             expiresIn: expires,
@@ -180,7 +181,26 @@ exports.update = async (req, res) => {
     });
   }
 }
-
+exports.useScore = async (req, res) => {
+  try {
+    const user = await User.findOneAndUpdate({ _id: req.params.id }, {
+      $inc: {
+        score: -10
+      }
+    })
+    if (!user)
+      return res.status(404).json({
+        message: userEnums.NOT_FOUND
+      })
+    return res.status(200).json({
+      message: userEnums.SCORE_USED
+    })
+  } catch (err) {
+    return res.status(500).json({
+      ...err
+    })
+  }
+}
 exports.loadCredit = async (req, res) => {
   try {
 

@@ -26,7 +26,7 @@ exports.find = async (req, res) => {
 }
 exports.list = async (req, res) => {
     try {
-        const products = await Product.find({});
+        const products = await Product.find({}).sort({_id:-1});
        
         res.status(200).json({
             products
@@ -49,7 +49,8 @@ exports.create = async (req, res) => {
         });
         await newProdcut.save()
         res.status(200).json({
-            message: productEnums.CREATED
+            message: productEnums.CREATED,
+            product:newProdcut
         })
     } catch (err) {
         res.status(500).json({

@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  username:{
+  username: {
     type: String,
     required: true,
   },
@@ -32,6 +32,9 @@ const userSchema = mongoose.Schema({
   },
   address: {
     type: String,
+  },
+  role: {
+    type: Number,
   }
 });
 

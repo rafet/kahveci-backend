@@ -27,7 +27,7 @@ exports.find = async (req, res) => {
 
 exports.list = async (req, res) => {
   try {
-    const caffes = await Caffe.find({});
+    const caffes = await Caffe.find({}).sort({ _id: -1 });
     res.status(200).json({
       caffes: caffes
     })
@@ -52,7 +52,8 @@ exports.create = async (req, res) => {
     })
     await newCaffe.save()
     res.status(201).json({
-      message: caffeEnums.CREATED
+      message: caffeEnums.CREATED,
+      caffe: newCaffe
     })
   } catch (err) {
     res.status(500).json({

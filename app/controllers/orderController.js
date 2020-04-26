@@ -34,10 +34,15 @@ exports.create = async (req, res) => {
       userId: req.userData.userId,
       date: Date.now()
     })
+
+    let result = req.body.products.reduce((a, c) => (a[c] = (a[c] || 0) + 1, a), Object.create(null));
     const products = await Product.find({ _id: { $in: req.body.products } })
     const sum = (a, b) => a + b;
-    const score = products.map(x => (x.hasScore ? 1 : 0)).reduce(sum, 0);
-    await User.findOneAndUpdate({ _id: req.userData.userId }, { $inc: { score: score } })
+    const score = products.map(x => (x.hasScore ? result[x._id] : 0)).reduce(sum, 0);
+    const cost = products.map(x => x.price).reduce(sum, 0);
+    console.log(score);
+
+    await User.findOneAndUpdate({ _id: req.userData.userId }, { $inc: { score: score, wallet: -cost } })
     await newOrder.save()
     res.status(201).json({
       message: orderEnums.CREATED

@@ -13,5 +13,6 @@ router.get('/me', checkAuth, userController.findMe);
 router.get('/:id', checkAuth, userController.find);
 router.put('/:id', checkAuth, userController.update);
 router.delete('/:id', checkAuth, userController.delete);
+router.patch('/:id', checkAuth, userController.useScore);
 
 module.exports = router;

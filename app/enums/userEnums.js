@@ -7,5 +7,6 @@ module.exports = {
     AUTH_FAILED: 'Email or password is wrong',
     AUTH_NO_EXIST: 'Email is not exist',
     EMAIL_EXIST: 'This mail is used by another account',
+    SCORE_USED: 'Score used successfully',
   };
   
